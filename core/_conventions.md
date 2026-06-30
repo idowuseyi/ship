@@ -14,6 +14,10 @@ Every phase prompt in `core/NN-<phase>.md` has exactly these six sections, in or
 5. `## Gate` — whether the phase stops for human approval, and what to present.
 6. `## Handoff` — what the next phase needs, and the `state.md` update to make.
 
+Exception: a phase whose gate fires before any work begins (currently only
+`06-gtm.md`) places `## Gate` immediately after `## Inputs`, before `## Process`,
+so the section order reflects the runtime order.
+
 ## The Artifact Trail
 
 A project under the workflow has a `.workflow/` directory containing:

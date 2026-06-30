@@ -26,4 +26,5 @@ it automatically.
 
 ## Handoff
 In `state.md` set `current_phase: 06-gtm`, check `05-verify.md`, add a Log line.
-Then present the Go-to-Market gate (see `06-gtm`).
+Do not start Go-to-Market automatically — it has a pre-flight gate. Wait for the
+user to invoke the Go-to-Market phase.
