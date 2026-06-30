@@ -1,0 +1,4 @@
+# Build artifacts
+.DS_Store
+
+# Per-project trails are created in *target* projects, not here
