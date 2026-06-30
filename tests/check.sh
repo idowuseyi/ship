@@ -37,6 +37,16 @@ grep -q 'current_phase: 05-verify'    core/04-implement.md || note "Implement ha
 grep -q 'current_phase: 06-gtm'       core/05-verify.md    || note "Verify handoff: wrong next phase"
 grep -q 'current_phase: done'         core/06-gtm.md       || note "GTM handoff: wrong terminal state"
 
+# Information currency rule + Sources sections
+grep -qF '## Information Currency' core/_conventions.md || note "_conventions.md missing Information Currency rule"
+for f in 01-brief 02-plan 03-design 04-implementation 05-verify 06-gtm; do
+  grep -qF '## Sources' "templates/workflow/$f.md" || note "templates/workflow/$f.md missing ## Sources"
+done
+for f in core/01-discover.md core/02-plan.md core/03-design.md core/04-implement.md core/05-verify.md core/06-gtm.md; do
+  grep -q 'Information currency' "$f" || note "$f missing Information currency note"
+  grep -qF '## Sources' "$f"          || note "$f Output missing ## Sources"
+done
+
 # Task 6 — Claude Code adapter references core files
 test -f adapters/claude-code/skills/ship/SKILL.md || note "missing ship SKILL.md"
 declare -A map=( [bootstrap]=00-bootstrap [discover]=01-discover [plan]=02-plan [design]=03-design [implement]=04-implement [verify]=05-verify [gtm]=06-gtm )

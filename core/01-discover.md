@@ -18,10 +18,15 @@ direction.
 3. Converge on one direction with the user.
 4. Write `.workflow/01-brief.md` using its template sections.
 
+*Information currency (see `_conventions.md`):* verify the problem space against
+current reality — whether it is already solved, who the current alternatives and
+competitors are, and what users expect now — using web search/docs. Record
+findings in `## Sources`.
+
 ## Output
 `.workflow/01-brief.md` with: `## Problem`, `## Users & Context`,
 `## Requirements`, `## Success Criteria`, `## Options Considered`,
-`## Chosen Direction`.
+`## Chosen Direction`, `## Sources`.
 
 ## Gate
 HARD GATE. Present a 3–5 line summary of the brief, then stop:

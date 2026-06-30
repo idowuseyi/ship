@@ -18,6 +18,30 @@ Exception: a phase whose gate fires before any work begins (currently only
 `06-gtm.md`) places `## Gate` immediately after `## Inputs`, before `## Process`,
 so the section order reflects the runtime order.
 
+## Information Currency
+
+The connected model may have stale or outdated training data. Treat its built-in
+knowledge as a starting hypothesis, never as ground truth for any fact about the
+outside world.
+
+Before asserting any external fact — library/package names and versions, API
+signatures, language/framework features, pricing, market or competitor claims,
+platform or store policies, security advisories, or "current best practice" —
+verify it against an authoritative, current source using whatever tools are
+available: web search, official documentation, package registries,
+`--version`/CLI checks, or the project's own files. Prefer primary sources and
+note the date.
+
+Record what you checked in the artifact's `## Sources` section: one line per
+claim as `claim — source (URL/command) — date checked`.
+
+If no fact-checking tool is available in the current environment, do not silently
+rely on memory. Label each unverifiable external claim inline as
+`[unverified — from training data, as of <date>]` and ask the user to confirm it
+or supply current information before the claim is treated as settled.
+
+This rule binds every phase below.
+
 ## The Artifact Trail
 
 A project under the workflow has a `.workflow/` directory containing:

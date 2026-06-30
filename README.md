@@ -21,6 +21,9 @@ the single source of truth; thin adapters let each tool invoke them natively.
   and an index of artifacts — so any tool can resume by reading it.
 - `core/_conventions.md` defines the phase contract, gate protocol, and
   `state.md` schema. Everything obeys it.
+- **Information currency:** every phase verifies external facts (versions, APIs,
+  pricing, policies) against current sources and records them in the artifact's
+  `## Sources` section; unverifiable claims are flagged, never silently trusted.
 
 ## Using it
 

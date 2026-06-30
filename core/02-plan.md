@@ -15,9 +15,14 @@ and tech.
 3. Identify the top risks and how each is mitigated.
 4. Write `.workflow/02-plan.md` using its template sections.
 
+*Information currency (see `_conventions.md`):* before committing to any
+technology, verify it is current and maintained — check latest stable versions,
+deprecations, and currently-recommended architecture patterns via official
+docs/registries. Record sources in `## Sources`.
+
 ## Output
 `.workflow/02-plan.md` with: `## Work Breakdown`, `## Architecture`,
-`## Tech Choices`, `## Sequence & Milestones`, `## Risks`.
+`## Tech Choices`, `## Sequence & Milestones`, `## Risks`, `## Sources`.
 
 ## Gate
 None. Flows directly to Design.

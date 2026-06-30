@@ -21,9 +21,13 @@ assets you intend to create and stop:
 4. Outline sales next steps (outreach, pricing notes, objections/answers).
 5. Write `.workflow/06-gtm.md` using its template sections.
 
+*Information currency (see `_conventions.md`):* verify current market conditions,
+pricing, channels, competitor positioning, and platform/store/ad policies before
+drafting assets. Record sources in `## Sources`.
+
 ## Output
 `.workflow/06-gtm.md` with: `## Positioning`, `## Audience & Channels`,
-`## Messaging`, `## Launch Assets`, `## Sales / Next Steps`.
+`## Messaging`, `## Launch Assets`, `## Sales / Next Steps`, `## Sources`.
 
 ## Handoff
 In `state.md` set `last_gate_passed: gtm`, `current_phase: done`,

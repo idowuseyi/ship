@@ -16,9 +16,13 @@ Exercise the built project, hunt for bugs, and record results and fixes.
 4. Apply fixes (re-entering Implement conventions as needed); re-test.
 5. Write `.workflow/05-verify.md` using its template sections.
 
+*Information currency (see `_conventions.md`):* check the build against
+currently-known vulnerabilities/CVEs and current tooling behavior, not remembered
+ones. Record sources in `## Sources`.
+
 ## Output
 `.workflow/05-verify.md` with: `## Test Coverage`, `## Bugs Found`,
-`## Fixes Applied`, `## Residual Risks`.
+`## Fixes Applied`, `## Residual Risks`, `## Sources`.
 
 ## Gate
 None during Verify. But the **next** phase (Go-to-Market) is gated: do not start

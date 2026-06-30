@@ -14,9 +14,14 @@ Build the project per the approved design, logging decisions and changes.
 3. Record files changed, key decisions, and any deviation from the design (with why).
 4. Write `.workflow/04-implementation.md` using its template sections.
 
+*Information currency (see `_conventions.md`):* do not write imports, package
+names, or API calls from memory — verify each against current docs/package
+registries first, and confirm installed versions with CLI checks. Record sources
+in `## Sources`.
+
 ## Output
 `.workflow/04-implementation.md` with: `## Files Changed`, `## Key Decisions`,
-`## Deviations from Design`, `## How to Run`.
+`## Deviations from Design`, `## How to Run`, `## Sources`.
 
 ## Gate
 None. When implementation is complete, **proceed directly to Verify**

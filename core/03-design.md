@@ -16,9 +16,13 @@ from.
 4. Describe error handling for the primary failure modes.
 5. Write `.workflow/03-design.md` using its template sections.
 
+*Information currency (see `_conventions.md`):* verify current API contracts,
+framework idioms, and security best practices for the chosen stack against
+official docs before specifying them. Record sources in `## Sources`.
+
 ## Output
 `.workflow/03-design.md` with: `## Components`, `## Interfaces & Contracts`,
-`## Data`, `## UX / Flows`, `## Error Handling`.
+`## Data`, `## UX / Flows`, `## Error Handling`, `## Sources`.
 
 ## Gate
 HARD GATE. Present a short summary of the design, then stop:
