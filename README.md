@@ -67,13 +67,32 @@ tools.
 3. At each gate, the agent stops and presents the artifact for approval.
 4. Switch tools any time — the next agent reads `state.md` and continues.
 
+## Quality is enforced, not hoped for
+
+Gates don't pass on the model's say-so — they must clear checks the model can't
+fake, so the workflow holds a quality floor even under a weak or stale model:
+
+- **Machine gate** — `.workflow/check-gate.sh` (copied into each project, run in
+  CI via `templates/ci/ship-gate.yml`) validates each artifact and runs the real
+  build/test/lint; Verify is strict (tests must exist and pass).
+- **Executable acceptance criteria** — Discover writes *measurable* criteria;
+  Verify maps each to an automated test in a `## Acceptance` section.
+- **Critic + human rubric** — every hard gate runs the adversarial review in
+  `core/_gate-review.md` (ideally on a stronger model) and hands you a checklist.
+
+Running a small/local model? See [`adapters/local/`](adapters/local/README.md) for
+how to keep quality dependable regardless of which model drives.
+
 ## Using it
 
 **Claude Code:** install `adapters/claude-code/` (the `ship` skill + `/ship-*`
 commands), then run `/ship-bootstrap`, `/ship-discover`, … in your project.
 
-**Codex / Cursor / Copilot and other agent tools:** point them at
-`adapters/agents/AGENTS.md`.
+**Continue (VS Code, incl. local models):** merge `adapters/continue/config.yaml`
+into your Continue config — see [`adapters/continue/`](adapters/continue/README.md).
+
+**Cline / OpenCode / Codex / Cursor and other agent tools:** point them at
+`adapters/agents/AGENTS.md` (read natively by Cline and OpenCode).
 
 **Any chat tool (ChatGPT, Gemini, …):** follow `adapters/generic/USAGE.md` —
 copy `templates/workflow/` into your project and paste the phase prompts.

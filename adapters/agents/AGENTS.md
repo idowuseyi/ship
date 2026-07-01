@@ -9,6 +9,15 @@ follow it; if the user asks to start/resume/advance with ship, follow it.
   schema. Never duplicate or improvise phase logic.
 - Always read `.workflow/state.md` first to learn the current phase, then read
   the checked artifacts, then execute the current phase's `core/NN-*.md`.
+- **Gates are enforced, not advisory.** At every hard gate you MUST run
+  `.workflow/check-gate.sh` and fix any FAIL before proceeding, run the
+  `core/_gate-review.md` critic pass, and present its human rubric. A red check
+  blocks the gate.
+- **Information Currency:** verify every external fact against a current source
+  and record it in the artifact's `## Sources`; never assert from memory.
+
+This file works natively in Cline, OpenCode, and any tool that reads `AGENTS.md`.
+Continue users: see `adapters/continue/`. Weak/local models: see `adapters/local/`.
 
 ## Phases (in order)
 - Bootstrap → `core/00-bootstrap.md`

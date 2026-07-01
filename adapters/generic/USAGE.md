@@ -26,6 +26,10 @@ any agent like this.
 Stop for your own approval after Discover, after Design, and before
 Go-to-Market. Implement flows straight into Verify.
 
+Before each gate, run `.workflow/check-gate.sh` (it validates the artifact and
+runs your build/tests) and work through the critic checklist + rubric in
+`core/_gate-review.md`. Don't approve until the check exits 0.
+
 ## Switching tools mid-project
 Because everything lives in `.workflow/`, you can switch tools any time: open the
 new tool, paste `state.md` + the done artifacts + the current phase prompt, and

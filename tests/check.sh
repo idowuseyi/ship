@@ -79,5 +79,12 @@ for f in core/01-discover.md core/03-design.md core/06-gtm.md; do
   grep -q 'check-gate.sh' "$f"     || note "$f gate does not run check-gate.sh"
   grep -q '_gate-review.md' "$f"   || note "$f gate does not run the critic"
 done
+grep -q 'check-gate.sh' adapters/agents/AGENTS.md || note "AGENTS.md missing gate enforcement"
+
+# Local / Continue adapters
+test -f adapters/continue/config.yaml || note "missing adapters/continue/config.yaml"
+test -f adapters/continue/README.md   || note "missing adapters/continue/README.md"
+test -f adapters/local/README.md      || note "missing adapters/local/README.md"
+grep -q 'core/01-discover.md' adapters/continue/config.yaml || note "continue adapter does not reference core/"
 
 if [ $fail -eq 0 ]; then echo "ALL CHECKS PASS"; else echo "CHECKS FAILED"; exit 1; fi

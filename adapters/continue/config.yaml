@@ -1,0 +1,66 @@
+# ship — Continue adapter (verified against docs.continue.dev, July 2026).
+#
+# Merge these two blocks into your Continue config
+# (~/.continue/config.yaml, or <project>/.continue/config.yaml).
+# Replace /ABS/PATH/TO/ship with the absolute path to your local ship repo.
+#
+# `rules` are always-on instructions; `prompts` are invoked as /ship-<phase>.
+# Both keep the single source of truth: they point at core/*.md, never restate it.
+
+rules:
+  - >-
+    This project may use the ship lifecycle workflow. If a .workflow/ directory
+    exists, or the user invokes a /ship-* prompt, follow ship: read
+    .workflow/state.md first, then the current phase's core/NN-*.md from the ship
+    repo, and obey core/_conventions.md — the phase contract, the Gate Protocol
+    (run .workflow/check-gate.sh and the core/_gate-review.md critic at every hard
+    gate), and Information Currency (verify external facts, cite them in
+    ## Sources). Never improvise phase logic.
+  - uses: file:///ABS/PATH/TO/ship/adapters/agents/AGENTS.md
+
+prompts:
+  - name: ship-bootstrap
+    description: ship — scaffold the .workflow/ trail in this project
+    prompt: |
+      Read core/00-bootstrap.md from the ship toolkit repo and execute it against
+      the current project. Follow core/_conventions.md. If you cannot locate the
+      ship repo, ask the user for its path.
+  - name: ship-discover
+    description: ship — Discover phase (brainstorm + ideate)
+    prompt: |
+      Read core/01-discover.md from the ship repo and execute it against the
+      current project's .workflow/. First read .workflow/state.md. Obey the Gate
+      Protocol in core/_conventions.md: run .workflow/check-gate.sh and the
+      core/_gate-review.md critic before presenting the gate.
+  - name: ship-plan
+    description: ship — Plan / Architect phase
+    prompt: |
+      Read core/02-plan.md from the ship repo and execute it against the current
+      project's .workflow/. First read .workflow/state.md. Obey core/_conventions.md.
+  - name: ship-design
+    description: ship — Design phase
+    prompt: |
+      Read core/03-design.md from the ship repo and execute it against the current
+      project's .workflow/. First read .workflow/state.md. Obey the Gate Protocol
+      in core/_conventions.md: run .workflow/check-gate.sh and the
+      core/_gate-review.md critic before presenting the gate.
+  - name: ship-implement
+    description: ship — Implement phase
+    prompt: |
+      Read core/04-implement.md from the ship repo and execute it against the
+      current project's .workflow/. First read .workflow/state.md. Obey
+      core/_conventions.md; proceed directly to Verify when done.
+  - name: ship-verify
+    description: ship — Verify phase (QA + bug hunt)
+    prompt: |
+      Read core/05-verify.md from the ship repo and execute it against the current
+      project's .workflow/. First read .workflow/state.md. Map each success
+      criterion to an automated test, then run .workflow/check-gate.sh (strict:
+      tests must pass) before advancing.
+  - name: ship-gtm
+    description: ship — Go-to-Market phase
+    prompt: |
+      Read core/06-gtm.md from the ship repo and execute it against the current
+      project's .workflow/. First read .workflow/state.md. This phase gates BEFORE
+      starting: run .workflow/check-gate.sh and the core/_gate-review.md critic,
+      present the plan + rubric, and wait for approval.
