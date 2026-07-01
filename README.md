@@ -1,21 +1,54 @@
 # ship — Reusable Project Lifecycle Workflow
 
-`ship` takes a project from idea to go-to-market through six gated phases,
-usable with **any** coding agent or chat tool. The phase prompts in `core/` are
-the single source of truth; thin adapters let each tool invoke them natively.
+**A reusable, tool-agnostic workflow that carries a project from first idea to going to market** — usable with any coding agent or chat tool (Claude Code, Codex, Cursor, Copilot, ChatGPT, Gemini, …).
+
+Optimized for software projects, adaptable to non-software ventures.
+
+## Why
+
+Most workflows are locked to one tool. `ship` keeps the workflow itself in plain
+markdown — a single source of truth — with thin per-tool adapters that just point
+back to it. The result:
+
+- **One canonical set of phase prompts** that works in any tool.
+- **Durable, resumable, git-friendly state** — switch tools mid-project without
+  losing context.
+- **No drift** — edit a phase once in `core/`, every tool reflects it.
+- **Human-in-the-loop where it matters**, automatic flow elsewhere.
 
 ## The six phases
 
-| # | Phase | Output artifact | Gate |
-|---|---|---|---|
-| 1 | Discover (brainstorm + ideate) | `.workflow/01-brief.md` | stop & approve after |
-| 2 | Plan / Architect | `.workflow/02-plan.md` | flows |
-| 3 | Design | `.workflow/03-design.md` | stop & approve after |
-| 4 | Implement | `.workflow/04-implementation.md` | flows |
-| 5 | Verify (QA + bug hunt) | `.workflow/05-verify.md` | flows (auto after Implement) |
-| 6 | Go-to-Market | `.workflow/06-gtm.md` | stop & approve before |
+| # | Phase | Does | Output | Gate |
+|---|---|---|---|---|
+| 1 | **Discover** | Brainstorm + ideate: intent, requirements, success criteria, options | `01-brief.md` | **Stop & approve** |
+| 2 | **Plan / Architect** | Decompose work; choose architecture & tech; sequence | `02-plan.md` | flow |
+| 3 | **Design** | Component / interface / data / UX design; contracts | `03-design.md` | **Stop & approve** |
+| 4 | **Implement** | Build per the design; log decisions & changes | `04-implementation.md` | flow |
+| 5 | **Verify** | QA + bug-hunt the freshly built code; record issues & fixes | `05-verify.md` | flow (auto after Implement) |
+| 6 | **Go-to-Market** | Positioning, messaging, launch & sales assets | `06-gtm.md` | **Stop & approve before starting** |
+
+**Gates** are hard stops that present the artifact and wait for an explicit
+"approved" before continuing: **after Discover**, **after Design**, and **before
+Go-to-Market**. Implement → Verify flows automatically.
+
+## Two layers
+
+**Layer 1 — the toolkit (this repo):** canonical phase prompts in `core/`, thin
+adapters in `adapters/`, and the files copied into a project in `templates/`.
+
+**Layer 2 — the artifact trail (created fresh in each target project):** a
+per-project `.workflow/` folder whose `state.md` is the single file an agent reads
+to know *where we are*. That's what makes a project resumable and portable across
+tools.
+
+```
+<target-project>/.workflow/
+  state.md            # current phase + gate status + artifact index (the "spine")
+  01-brief.md … 06-gtm.md
+```
 
 ## How it works
+
 - Each project you apply ship to gets a `.workflow/` folder (the **artifact
   trail**). `state.md` is the spine: it records the current phase, gates passed,
   and an index of artifacts — so any tool can resume by reading it.
@@ -25,10 +58,19 @@ the single source of truth; thin adapters let each tool invoke them natively.
   pricing, policies) against current sources and records them in the artifact's
   `## Sources` section; unverifiable claims are flagged, never silently trusted.
 
+## How it's used
+
+1. In a target project, bootstrap the workflow (`/ship-bootstrap` in Claude Code,
+   or copy `templates/workflow/` by hand) → creates `.workflow/` with `state.md`.
+2. Run each phase in order. The agent reads `state.md` + prior artifacts, executes
+   the phase, writes its artifact, and updates `state.md`.
+3. At each gate, the agent stops and presents the artifact for approval.
+4. Switch tools any time — the next agent reads `state.md` and continues.
+
 ## Using it
 
-**Claude Code:** install `adapters/claude-code/` (skill + `/ship-*` commands),
-then run `/ship-bootstrap`, `/ship-discover`, … in your project.
+**Claude Code:** install `adapters/claude-code/` (the `ship` skill + `/ship-*`
+commands), then run `/ship-bootstrap`, `/ship-discover`, … in your project.
 
 **Codex / Cursor / Copilot and other agent tools:** point them at
 `adapters/agents/AGENTS.md`.
@@ -37,13 +79,20 @@ then run `/ship-bootstrap`, `/ship-discover`, … in your project.
 copy `templates/workflow/` into your project and paste the phase prompts.
 
 ## Verify the toolkit
+
 ```bash
 ./tests/check.sh
 ```
 
 ## Layout
+
 - `core/` — canonical phase prompts (single source of truth)
-- `adapters/` — thin per-tool entry points
+- `adapters/` — thin per-tool entry points (Claude Code, `AGENTS.md`, generic)
 - `templates/workflow/` — copied into a target project as `.workflow/`
 - `tests/check.sh` — structural regression check
-- `docs/superpowers/` — design spec and this plan
+- `docs/superpowers/` — design spec and implementation plan
+
+## Documentation
+
+- [Design spec](docs/superpowers/specs/2026-06-30-ship-lifecycle-workflow-design.md)
+- [Implementation plan](docs/superpowers/plans/2026-06-30-ship-lifecycle-workflow.md)

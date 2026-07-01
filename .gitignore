@@ -1,4 +1,21 @@
-# Build artifacts
-.DS_Store
+# Per-project workflow trails are created in *target* projects, not here
+.workflow/
 
-# Per-project trails are created in *target* projects, not here
+# OS / desktop
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.idea/
+.vscode/
+*.swp
+*~
+
+# Logs & temp
+*.log
+tmp/
+.tmp/
+
+# Node (in case adapter tooling is added later)
+node_modules/
+npm-debug.log*
