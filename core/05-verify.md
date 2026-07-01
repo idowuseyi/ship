@@ -9,12 +9,17 @@ Exercise the built project, hunt for bugs, and record results and fixes.
 - `.workflow/state.md`.
 
 ## Process
-1. Derive test cases from the brief's success criteria and the design's contracts.
+1. Turn each **measurable success criterion** in `01-brief.md` into a concrete
+   **automated test** in the project's real test suite (not prose). Record the
+   mapping in `## Acceptance` as `criterion — test (path/id) — pass|fail`.
 2. Run the project; cover happy paths, edge cases, and the listed error modes.
 3. Hunt for bugs: boundary inputs, race conditions, silent failures, wrong
    error handling. For each bug, note repro, severity, and fix.
-4. Apply fixes (re-entering Implement conventions as needed); re-test.
-5. Write `.workflow/05-verify.md` using its template sections.
+4. Apply fixes (re-entering Implement conventions as needed); re-test until every
+   acceptance line reads `pass`.
+5. Write `.workflow/05-verify.md` using its template sections, then run
+   `.workflow/check-gate.sh` — it fails Verify if tests are missing/red or any
+   acceptance criterion is unmet. Do not advance until it exits 0.
 
 *Information currency (see `_conventions.md`):* check the build against
 currently-known vulnerabilities/CVEs and current tooling behavior, not remembered
@@ -22,7 +27,7 @@ ones. Record sources in `## Sources`.
 
 ## Output
 `.workflow/05-verify.md` with: `## Test Coverage`, `## Bugs Found`,
-`## Fixes Applied`, `## Residual Risks`, `## Sources`.
+`## Fixes Applied`, `## Residual Risks`, `## Acceptance`, `## Sources`.
 
 ## Gate
 None during Verify. But the **next** phase (Go-to-Market) is gated: do not start

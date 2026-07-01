@@ -9,8 +9,11 @@ Position the finished project and produce launch and sales assets.
 - `.workflow/state.md`.
 
 ## Gate
-HARD GATE — this gate fires **before** starting. Present a short plan of the GTM
-assets you intend to create and stop:
+HARD GATE — this gate fires **before** starting. Per the Gate Protocol in
+`_conventions.md`, first run `.workflow/check-gate.sh` (at this pre-flight point it
+validates that Verify passed and the build/tests are green) and the
+`core/_gate-review.md` critic. Then present a short plan of the GTM assets you
+intend to create **plus the gate rubric**, and stop:
 > **GATE — reply `approved` to continue, or tell me what to change.**
 
 ## Process

@@ -25,7 +25,11 @@ official docs before specifying them. Record sources in `## Sources`.
 `## Data`, `## UX / Flows`, `## Error Handling`, `## Sources`.
 
 ## Gate
-HARD GATE. Present a short summary of the design, then stop:
+HARD GATE. Follow the Gate Protocol in `_conventions.md`: first run
+`.workflow/check-gate.sh` (fix any FAIL and re-run until it passes), then run the
+critic pass in `core/_gate-review.md` — check especially that the design satisfies
+every requirement in `01-brief.md` and is not over-engineered. Only then present a
+short summary of the design **plus the gate rubric**, and stop:
 > **GATE — reply `approved` to continue, or tell me what to change.**
 
 ## Handoff

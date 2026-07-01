@@ -62,4 +62,22 @@ for f in adapters/agents/AGENTS.md adapters/generic/USAGE.md; do
   grep -q '_conventions.md' "$f"     || note "$f missing _conventions reference"
 done
 
+# Quality hardening — machine gate, acceptance, critic/rubric
+test -f templates/workflow/check-gate.sh || note "missing templates/workflow/check-gate.sh"
+test -x templates/workflow/check-gate.sh || note "check-gate.sh is not executable"
+bash -n templates/workflow/check-gate.sh 2>/dev/null || note "check-gate.sh has a syntax error"
+test -f templates/ci/ship-gate.yml || note "missing templates/ci/ship-gate.yml"
+test -f core/_gate-review.md || note "missing core/_gate-review.md"
+grep -qF '## Quality Enforcement' core/_conventions.md || note "_conventions.md missing Quality Enforcement"
+grep -qF '## Executable Acceptance Criteria' core/_conventions.md || note "_conventions.md missing Acceptance Criteria rule"
+grep -q 'check-gate.sh' core/_conventions.md || note "_conventions.md does not reference check-gate.sh"
+grep -qF '## Acceptance' templates/workflow/05-verify.md || note "verify template missing ## Acceptance"
+grep -qF '## Acceptance' core/05-verify.md || note "core/05-verify.md missing ## Acceptance in Output"
+grep -qi 'measurable' core/01-discover.md || note "Discover does not require measurable criteria"
+# Every gated phase references the enforcement (check-gate + critic)
+for f in core/01-discover.md core/03-design.md core/06-gtm.md; do
+  grep -q 'check-gate.sh' "$f"     || note "$f gate does not run check-gate.sh"
+  grep -q '_gate-review.md' "$f"   || note "$f gate does not run the critic"
+done
+
 if [ $fail -eq 0 ]; then echo "ALL CHECKS PASS"; else echo "CHECKS FAILED"; exit 1; fi
