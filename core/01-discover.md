@@ -43,4 +43,6 @@ brief **plus the gate rubric**, and stop:
 ## Handoff
 On `approved`: in `state.md` set `last_gate_passed: discover`,
 `current_phase: 02-plan`, `next_gate: design`, check `01-brief.md`, add a Log
-line. Next phase is `02-plan`.
+line. Next phase is `02-plan`. Update `.workflow/memory.md` per the Memory
+Protocol in `_conventions.md`: append any non-obvious learnings from this
+phase; prune entries now proven false, dismissed, or attended to.

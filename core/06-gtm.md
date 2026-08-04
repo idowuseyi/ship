@@ -35,3 +35,6 @@ drafting assets. Record sources in `## Sources`.
 ## Handoff
 In `state.md` set `last_gate_passed: gtm`, `current_phase: done`,
 `next_gate: none`, check `06-gtm.md`, add a Log line. The workflow is complete.
+Update `.workflow/memory.md` per the Memory Protocol in `_conventions.md`:
+append any non-obvious learnings from this phase; prune entries now proven
+false, dismissed, or attended to.

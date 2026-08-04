@@ -107,4 +107,15 @@ else
   note "missing tests/gate-fixture.sh"
 fi
 
+for f in core/00-bootstrap.md core/01-discover.md core/02-plan.md core/03-design.md core/04-implement.md core/05-verify.md core/06-gtm.md; do
+  grep -qi 'memory.md' "$f" || note "$f missing memory.md update in Handoff"
+done
+grep -q '_security-review.md' core/05-verify.md || note "core/05-verify.md does not run the security pass"
+grep -q '_security-review.md' core/03-design.md || note "core/03-design.md missing design-time security step"
+grep -qF '## Security' core/05-verify.md || note "core/05-verify.md Output missing ## Security"
+grep -qF '## Not Covered' core/05-verify.md || note "core/05-verify.md Output missing ## Not Covered"
+grep -qF '## Security' templates/workflow/05-verify.md || note "verify template missing ## Security"
+grep -qF '## Not Covered' templates/workflow/05-verify.md || note "verify template missing ## Not Covered"
+grep -qi 'never edit a test' core/05-verify.md || note "core/05-verify.md missing anti-gaming rule"
+
 if [ $fail -eq 0 ]; then echo "ALL CHECKS PASS"; else echo "CHECKS FAILED"; exit 1; fi

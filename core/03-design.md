@@ -14,7 +14,12 @@ from.
 2. Define interfaces/contracts (signatures, request/response shapes, events).
 3. Specify data structures/schemas and the main UX flows.
 4. Describe error handling for the primary failure modes.
-5. Write `.workflow/03-design.md` using its template sections.
+5. Specify the design's security posture: trust boundaries (who talks to
+   what, with which privileges), authn/authz per interface, and how sensitive
+   data is stored, transported, and logged. Record it inside
+   `## Interfaces & Contracts` and `## Data`. The Design gate runs the
+   design-time checks in `core/_security-review.md` against exactly this.
+6. Write `.workflow/03-design.md` using its template sections.
 
 *Information currency (see `_conventions.md`):* verify current API contracts,
 framework idioms, and security best practices for the chosen stack against
@@ -35,4 +40,6 @@ short summary of the design **plus the gate rubric**, and stop:
 ## Handoff
 On `approved`: in `state.md` set `last_gate_passed: design`,
 `current_phase: 04-implement`, `next_gate: gtm`, check `03-design.md`, add a Log
-line. Next phase is `04-implement`.
+line. Next phase is `04-implement`. Update `.workflow/memory.md` per the Memory
+Protocol in `_conventions.md`: append any non-obvious learnings from this
+phase; prune entries now proven false, dismissed, or attended to.

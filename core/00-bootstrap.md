@@ -21,13 +21,14 @@ Scaffold the `.workflow/` artifact trail in the current target project.
 6. Report the created files and tell the user the next step is the Discover phase.
 
 ## Output
-- Directory `<target>/.workflow/` containing `state.md`, the six artifact
-  templates from `_conventions.md`'s artifact table, and the executable
-  `check-gate.sh` machine gate.
+- Directory `<target>/.workflow/` containing `state.md`, `memory.md`, the six
+  artifact templates from `_conventions.md`'s artifact table, and the
+  executable `check-gate.sh` machine gate.
 
 ## Gate
 None. Bootstrap is setup only; proceed when done.
 
 ## Handoff
 Next phase is `01-discover`. `state.md` already points `current_phase` at
-`01-discover` with `next_gate: discover`.
+`01-discover` with `next_gate: discover`. `memory.md` starts empty — the
+Memory Protocol in `_conventions.md` governs it from here.

@@ -29,4 +29,6 @@ None. Flows directly to Design.
 
 ## Handoff
 In `state.md` set `current_phase: 03-design`, check `02-plan.md`, add a Log line.
-Next phase is `03-design`.
+Next phase is `03-design`. Update `.workflow/memory.md` per the Memory
+Protocol in `_conventions.md`: append any non-obvious learnings from this
+phase; prune entries now proven false, dismissed, or attended to.
