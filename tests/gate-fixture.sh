@@ -102,4 +102,20 @@ out=$("$r/.workflow/check-gate.sh" 2>&1) || note "missing memory.md must not blo
 echo "$out" | grep -qi 'memory' || note "missing memory.md should print a warning"
 rm -rf "$r"
 
+# 8. open Low finding whose text merely contains "highlighted"/"highly" must
+# not be mistaken for an open Critical/High finding (substring-match trap).
+r=$(make_fixture 05-verify)
+write_verify "$r" 'criterion A — tests/a — pass' \
+  'S-002 — leaked config highlighted in logs — Low — src/y:5 — logs are highly visible — redact — open'
+"$r/.workflow/check-gate.sh" >/dev/null 2>&1 || note "open Low finding mentioning highlighted/highly should not block"
+rm -rf "$r"
+
+# 9. passing acceptance line whose criterion text mentions blocked/failing
+# must not be mistaken for an actual blocked/failing verdict (substring-match trap).
+r=$(make_fixture 05-verify)
+write_verify "$r" 'criterion A (previously blocked, failing before) — tests/a — pass' \
+  'S-001 — sample — Low — src/x:1 — n/a — n/a — fixed'
+"$r/.workflow/check-gate.sh" >/dev/null 2>&1 || note "passing criterion mentioning blocked/failing in prose should not block"
+rm -rf "$r"
+
 if [ "$fail" -eq 0 ]; then echo "GATE FIXTURE TESTS PASS"; else echo "GATE FIXTURE TESTS FAILED"; exit 1; fi

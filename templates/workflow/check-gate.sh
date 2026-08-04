@@ -51,13 +51,12 @@ validate_artifact() { # $1=artifact filename ; uses global $headers
 check_acceptance() {
   local body
   body=$(section_body "$WF/05-verify.md" "Acceptance" | grep -v '<!--')
-  local passes fails
-  passes=$(printf '%s\n' "$body" | grep -ci 'pass' || true)
-  fails=$(printf '%s\n' "$body" | grep -ci 'fail' || true)
+  local passes fails blocked
+  passes=$(printf '%s\n' "$body" | grep -Eci -- '(—|--|-)[[:space:]]*pass[[:space:]]*$' || true)
+  fails=$(printf '%s\n' "$body" | grep -Eci -- '(—|--|-)[[:space:]]*fail[[:space:]]*$' || true)
   [ "${passes:-0}" -ge 1 ] || err "05-verify.md ## Acceptance lists no passing criterion"
   [ "${fails:-0}" -ge 1 ] && err "05-verify.md ## Acceptance still has failing criteria ($fails)"
-  local blocked
-  blocked=$(printf '%s\n' "$body" | grep -ci 'blocked' || true)
+  blocked=$(printf '%s\n' "$body" | grep -Eci -- '(—|--|-)[[:space:]]*blocked([[:space:]]*\([^)]*\))?[[:space:]]*$' || true)
   [ "${blocked:-0}" -ge 1 ] && err "05-verify.md ## Acceptance has blocked criteria ($blocked) — resolve the blocker or re-scope with the user"
 }
 
@@ -68,7 +67,7 @@ check_security() {
   body=$(section_body "$WF/05-verify.md" "Security" | grep -v '<!--')
   content=$(printf '%s\n' "$body" | grep -v '^[[:space:]]*$')
   [ -n "$content" ] || { err "05-verify.md has an empty ## Security — run core/_security-review.md and record results"; return; }
-  open_high=$(printf '%s\n' "$body" | grep -Ei 'critical|high' | grep -Eci -- '(—|--|-)[[:space:]]*open[[:space:]]*$' || true)
+  open_high=$(printf '%s\n' "$body" | grep -Ei -- '(—|--)[[:space:]]*(critical|high)[[:space:]]*(—|--)' | grep -Eci -- '(—|--|-)[[:space:]]*open[[:space:]]*$' || true)
   [ "${open_high:-0}" -ge 1 ] && err "05-verify.md ## Security has open Critical/High findings ($open_high) — fix them or record a user-approved deferred(reason + flip condition)"
 }
 
