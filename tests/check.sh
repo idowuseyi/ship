@@ -118,4 +118,11 @@ grep -qF '## Security' templates/workflow/05-verify.md || note "verify template 
 grep -qF '## Not Covered' templates/workflow/05-verify.md || note "verify template missing ## Not Covered"
 grep -qi 'never edit a test' core/05-verify.md || note "core/05-verify.md missing anti-gaming rule"
 
+# Task 5 — gate review, adapters, README
+grep -q '_security-review.md' core/_gate-review.md || note "gate-review missing design-time security checks"
+grep -qi 'security' adapters/agents/AGENTS.md || note "AGENTS.md missing security rule"
+grep -qi 'memory.md' adapters/agents/AGENTS.md || note "AGENTS.md missing memory rule"
+grep -q '_security-review.md' adapters/claude-code/commands/ship-verify.md || note "ship-verify command missing security pass"
+grep -qi 'memory.md' README.md || note "README missing memory.md in artifact trail"
+
 if [ $fail -eq 0 ]; then echo "ALL CHECKS PASS"; else echo "CHECKS FAILED"; exit 1; fi

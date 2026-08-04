@@ -15,6 +15,14 @@ follow it; if the user asks to start/resume/advance with ship, follow it.
   blocks the gate.
 - **Information Currency:** verify every external fact against a current source
   and record it in the artifact's `## Sources`; never assert from memory.
+- **Security is part of the loop.** The Design gate runs the design-time
+  checks and Verify runs the full adversarial pass in
+  `core/_security-review.md`; `check-gate.sh` blocks on an empty
+  `## Security`, an open Critical/High finding, or a secret-scan hit.
+- **Memory:** read `.workflow/memory.md` at the start of every phase and
+  update it at every Handoff per the Memory Protocol in
+  `core/_conventions.md` — append non-obvious learnings; prune anything
+  false, dismissed, or attended to. It holds only verified-true facts.
 
 This file works natively in Cline, OpenCode, and any tool that reads `AGENTS.md`.
 Continue users: see `adapters/continue/`. Weak/local models: see `adapters/local/`.

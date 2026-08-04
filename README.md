@@ -44,6 +44,7 @@ tools.
 ```
 <target-project>/.workflow/
   state.md            # current phase + gate status + artifact index (the "spine")
+  memory.md           # curated non-obvious learnings — verified-true facts only
   01-brief.md … 06-gtm.md
 ```
 
@@ -74,7 +75,12 @@ fake, so the workflow holds a quality floor even under a weak or stale model:
 
 - **Machine gate** — `.workflow/check-gate.sh` (copied into each project, run in
   CI via `templates/ci/ship-gate.yml`) validates each artifact and runs the real
-  build/test/lint; Verify is strict (tests must exist and pass).
+  build/test/lint; Verify is strict (tests must exist and pass); enforces a non-empty `## Security` (no open Critical/High findings) and secret-scans the working tree — including `.workflow/`.
+- **Security + memory in the loop** — `core/_security-review.md` runs at the
+  Design gate (trust boundaries, authn/authz, sensitive data) and as a full
+  adversarial pass in Verify; `.workflow/memory.md` carries verified-true,
+  non-obvious learnings across sessions — appended and pruned at every phase
+  handoff.
 - **Executable acceptance criteria** — Discover writes *measurable* criteria;
   Verify maps each to an automated test in a `## Acceptance` section.
 - **Critic + human rubric** — every hard gate runs the adversarial review in

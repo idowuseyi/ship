@@ -46,11 +46,18 @@ gate to the human.**
 - Are the primary failure modes and their handling specified?
 - Does the design actually satisfy each requirement in `01-brief.md`? Map them.
 - Is it the *simplest* design that meets the brief, or is it over-engineered?
+- Run the **design-time security subset** in `core/_security-review.md`:
+  trust boundaries, attacker profiles, sensitive-data handling, and
+  authn/authz per interface. Verdict each `PASS`/`WARN`/`BLOCK` like the
+  checks above.
 
 ### Go-to-Market (`06-gtm.md`, reviewed before starting)
 - Does the positioning follow from the brief's problem/users, not generic hype?
 - Are channel, pricing, and policy claims verified against current sources?
 - Is every claim about the product something Verify actually proved?
+- Does `05-verify.md`'s `## Security` carry any unresolved `open`
+  Critical/High finding? That is a `BLOCK`. Deferred findings must show
+  their reason + flip condition.
 
 ## Human rubric (present at the gate)
 
@@ -62,6 +69,8 @@ Gate rubric — confirm before you reply `approved`:
 [ ] Success criteria are measurable, and (at Verify onward) backed by passing tests.
 [ ] Every external fact has a dated source; unverifiable ones are flagged.
 [ ] No BLOCK findings remain from the critic pass.
+[ ] No open Critical/High security findings; deferrals carry a reason + flip condition.
+[ ] memory.md was updated: learnings appended, stale/attended entries pruned.
 [ ] The artifact actually solves the problem in 01-brief.md — not an adjacent one.
 [ ] You understand the trade-offs and are comfortable proceeding.
 ```

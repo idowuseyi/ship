@@ -15,7 +15,9 @@ rules:
     repo, and obey core/_conventions.md — the phase contract, the Gate Protocol
     (run .workflow/check-gate.sh and the core/_gate-review.md critic at every hard
     gate), and Information Currency (verify external facts, cite them in
-    ## Sources). Never improvise phase logic.
+    ## Sources). Read .workflow/memory.md at every phase start and update it at
+    every Handoff (Memory Protocol). Run core/_security-review.md at the Design
+    gate and during Verify. Never improvise phase logic.
   - uses: file:///ABS/PATH/TO/ship/adapters/agents/AGENTS.md
 
 prompts:
@@ -55,7 +57,7 @@ prompts:
     prompt: |
       Read core/05-verify.md from the ship repo and execute it against the current
       project's .workflow/. First read .workflow/state.md. Map each success
-      criterion to an automated test, then run .workflow/check-gate.sh (strict:
+      criterion to an automated test, run the security pass in core/_security-review.md, then run .workflow/check-gate.sh (strict:
       tests must pass) before advancing.
   - name: ship-gtm
     description: ship — Go-to-Market phase

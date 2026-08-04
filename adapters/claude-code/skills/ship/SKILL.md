@@ -17,6 +17,9 @@ durable `.workflow/` artifact trail. The canonical prompts live in this repo's
    `/ship-implement` → `/ship-verify` → `/ship-gtm`.
 3. Always obey `core/_conventions.md` — especially the Gate Protocol (hard stops
    after Discover, after Design, and before Go-to-Market).
+4. Read `.workflow/memory.md` at the start of every phase and update it at
+   every Handoff (Memory Protocol in `core/_conventions.md`). Security is in
+   the loop: `core/_security-review.md` runs at the Design gate and in Verify.
 
 ## Mechanics
 Each command reads the matching `core/NN-<phase>.md` and executes it against the
