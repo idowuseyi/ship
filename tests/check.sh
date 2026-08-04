@@ -87,4 +87,10 @@ test -f adapters/continue/README.md   || note "missing adapters/continue/README.
 test -f adapters/local/README.md      || note "missing adapters/local/README.md"
 grep -q 'core/01-discover.md' adapters/continue/config.yaml || note "continue adapter does not reference core/"
 
+# Security review + memory layer (2026-08-04 spec)
+test -f core/_security-review.md || note "missing core/_security-review.md"
+for h in '## Mindset' '## Design-time subset' '## Full adversarial pass' '## Severity rubric' '## Output contract'; do
+  grep -qF "$h" core/_security-review.md 2>/dev/null || note "_security-review.md missing '$h'"
+done
+
 if [ $fail -eq 0 ]; then echo "ALL CHECKS PASS"; else echo "CHECKS FAILED"; exit 1; fi
