@@ -75,7 +75,9 @@ fake, so the workflow holds a quality floor even under a weak or stale model:
 
 - **Machine gate** — `.workflow/check-gate.sh` (copied into each project, run in
   CI via `templates/ci/ship-gate.yml`) validates each artifact and runs the real
-  build/test/lint; Verify is strict (tests must exist and pass); enforces a non-empty `## Security` (no open Critical/High findings) and secret-scans the working tree — including `.workflow/`.
+  build/test/lint; Verify is strict (tests must exist and pass); enforces a
+  non-empty `## Security` (no open Critical/High findings) and secret-scans the
+  working tree — including `.workflow/`.
 - **Security + memory in the loop** — `core/_security-review.md` runs at the
   Design gate (trust boundaries, authn/authz, sensitive data) and as a full
   adversarial pass in Verify; `.workflow/memory.md` carries verified-true,
