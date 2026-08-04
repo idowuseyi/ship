@@ -99,5 +99,12 @@ grep -q 'memory.md' core/_conventions.md || note "_conventions.md does not refer
 grep -qi 'verified true\|verified-true' core/_conventions.md || note "Memory Protocol missing verified-true rule"
 grep -qi 'prune' core/_conventions.md || note "Memory Protocol missing prune rule"
 grep -qi 'blocked' core/_conventions.md || note "_conventions.md missing blocked verdict"
+grep -q 'check_security' templates/workflow/check-gate.sh || note "check-gate.sh missing check_security"
+grep -q 'run_secret_scan' templates/workflow/check-gate.sh || note "check-gate.sh missing run_secret_scan"
+if [ -f tests/gate-fixture.sh ]; then
+  bash tests/gate-fixture.sh || note "gate fixture tests failed"
+else
+  note "missing tests/gate-fixture.sh"
+fi
 
 if [ $fail -eq 0 ]; then echo "ALL CHECKS PASS"; else echo "CHECKS FAILED"; exit 1; fi
