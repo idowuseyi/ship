@@ -49,6 +49,7 @@ A project under the workflow has a `.workflow/` directory containing:
 | File | Written by | Purpose |
 |---|---|---|
 | `state.md` | every phase | current phase + gate status + artifact index (the spine) |
+| `memory.md` | every phase | curated non-obvious learnings — verified-true facts only (see Memory Protocol) |
 | `01-brief.md` | Discover | problem, users, requirements, success criteria, chosen direction |
 | `02-plan.md` | Plan/Architect | work breakdown, architecture, tech choices, sequence |
 | `03-design.md` | Design | components, interfaces, data, UX, contracts |
@@ -101,8 +102,11 @@ backstops make correctness checkable by something other than the model:
   section headers, and has a **non-empty `## Sources`** (not just the template
   comment). It then auto-detects the project's stack and runs the real
   build/test/lint (`npm`/`pnpm`/`yarn`, `pytest`, `cargo`, `go`, `make`). For the
-  **Verify** phase it is strict: automated tests MUST exist and pass. A red check
-  blocks the gate.
+  **Verify** phase it is strict: automated tests MUST exist and pass, the
+  `## Security` section must be non-empty with no `open` Critical/High
+  finding, and no acceptance line may read `fail` or `blocked`. Every run
+  also secret-scans the working tree — including `.workflow/` itself.
+  A red check blocks the gate.
 - **`templates/ci/ship-gate.yml`** runs the same script in CI so the check cannot
   be bypassed by a forgetful agent.
 
@@ -118,9 +122,59 @@ Success is defined by tests, not by the model's opinion.
   adjective like "fast" or "user-friendly".
 - **Verify** MUST convert each success criterion into a concrete automated test
   and record the mapping in its `## Acceptance` section as
-  `criterion — test (path/id) — pass|fail`. A criterion with no passing test is
-  an open item, and `check-gate.sh` treats missing/failing acceptance tests as a
-  gate failure.
+  `criterion — test (path/id) — pass|fail|blocked(<reason>)`. A criterion
+  with no passing test is an open item, and `check-gate.sh` treats missing/failing
+  acceptance tests as a gate failure.
+
+## Memory Protocol
+
+`.workflow/memory.md` is the project's cross-session memory: a **curated** set
+of non-obvious learnings that holds **only verified-true facts** — it is not a
+journal. History lives in git and the phase artifacts.
+
+- **Read it at the start of every phase**, right after `state.md`.
+- **Update it at every Handoff — append AND prune.** Append new non-obvious
+  learnings. Prune: remove entries proven false or dismissed; remove or
+  rewrite entries whose concern has been attended to (follow-up done, issue
+  resolved) down to whatever fact still holds; re-verify or drop anything no
+  longer confirmable.
+- **Exclusions:** never record what is derivable from the repo, the
+  artifacts, or git history — those sources are authoritative and copies rot.
+  If something derivable seems worth saving, keep only what was *surprising
+  or non-obvious* about it. Never store secrets or credentials (the secret
+  scan covers `.workflow/` too).
+- **Entry format:** `- <date> — <phase> — <learning>.` followed by `Why:`
+  (what breaks without it) and `How to apply:` (the concrete behavior next
+  time). Knowing *why* lets a future agent judge edge cases instead of
+  blindly following the rule.
+- **Staleness:** an entry naming a file/function/flag is a claim it existed
+  *when written* — verify it still holds before acting on it, and prune it
+  when it stops holding.
+- **Record confirmations, not just corrections** — only saving mistakes
+  drifts the workflow away from approaches the user has already validated.
+- An **empty memory is legitimate** (nothing surprising, or everything
+  attended to). `check-gate.sh` warns if the file is missing, but never
+  blocks on content.
+
+## Result Integrity
+
+- **Staleness:** any prior PASS — an acceptance line, a security finding's
+  status, a gate verdict — is stale the moment the underlying behavior
+  changes. Re-run the affected checks and overwrite the artifact section;
+  never accumulate stale greens.
+- **BLOCKED is a verdict, not a failure to report:** when a criterion cannot
+  be verified, record `blocked(<reason>)` — never fabricate a pass or guess
+  a fail. `check-gate.sh` treats `blocked` like `fail`: the gate does not
+  pass until the blocker is resolved or the criterion re-scoped with the
+  user.
+- **No gaming:** fix the underlying defect — never edit a test or weaken a
+  success criterion to make it pass. If the test itself is wrong (bad
+  selector, race, stale assertion), say so explicitly in the artifact and
+  justify the change.
+- **Flip conditions:** any warn/deferred/non-blocking result must record the
+  condition under which it becomes blocking (e.g. "deferred until upstream
+  fix lands — then blocking"). Deferred rigor has an expiry; silent
+  permanent leniency is not allowed.
 
 ## Gate Review (critic + rubric)
 
@@ -157,8 +211,9 @@ Check a box when its artifact is written. Append one `## Log` line per phase.
 
 ## Resume Rules
 
-To resume in any tool: read `.workflow/state.md`, then read every checked
-artifact, then open `core/<current_phase>.md` and continue its `## Process`.
+To resume in any tool: read `.workflow/state.md`, then `.workflow/memory.md`
+(the Memory Protocol above), then read every checked artifact, then open
+`core/<current_phase>.md` and continue its `## Process`.
 If `current_phase` sits at a passed gate awaiting approval, re-present the gate.
 
 ## Adaptation

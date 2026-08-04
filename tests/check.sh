@@ -92,5 +92,12 @@ test -f core/_security-review.md || note "missing core/_security-review.md"
 for h in '## Mindset' '## Design-time subset' '## Full adversarial pass' '## Severity rubric' '## Output contract'; do
   grep -qF "$h" core/_security-review.md 2>/dev/null || note "_security-review.md missing '$h'"
 done
+test -f templates/workflow/memory.md || note "missing templates/workflow/memory.md"
+grep -qF '## Memory Protocol' core/_conventions.md || note "_conventions.md missing Memory Protocol"
+grep -qF '## Result Integrity' core/_conventions.md || note "_conventions.md missing Result Integrity"
+grep -q 'memory.md' core/_conventions.md || note "_conventions.md does not reference memory.md"
+grep -qi 'verified true\|verified-true' core/_conventions.md || note "Memory Protocol missing verified-true rule"
+grep -qi 'prune' core/_conventions.md || note "Memory Protocol missing prune rule"
+grep -qi 'blocked' core/_conventions.md || note "_conventions.md missing blocked verdict"
 
 if [ $fail -eq 0 ]; then echo "ALL CHECKS PASS"; else echo "CHECKS FAILED"; exit 1; fi
