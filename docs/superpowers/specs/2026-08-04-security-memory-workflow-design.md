@@ -125,7 +125,8 @@ Mindset rules (kept from lms in spirit):
 ### New file `templates/workflow/memory.md`
 
 Copied at bootstrap alongside the other templates. Header comments explain the
-protocol; body is an append-only list of entries:
+protocol; body is a **curated** list of entries — it holds only what is
+currently verified true, not a historical journal:
 
 ```
 - <date> — <phase> — <the learning>.
@@ -138,25 +139,34 @@ protocol; body is an append-only list of entries:
 1. **Read at phase start** — every phase reads `memory.md` after `state.md`
    (Resume Rules updated to: `state.md` → `memory.md` → checked artifacts →
    current phase prompt).
-2. **Append at every Handoff** — recording non-obvious learnings is part of
-   the loop, not an afterthought.
-3. **Exclusion list** — never record what is derivable from the repo, the
+2. **Update at every Handoff — append AND prune.** Recording non-obvious
+   learnings is part of the loop, not an afterthought; so is curation.
+3. **Verified-true only.** Memory holds only facts that are currently
+   verified true — it is a curated set, never a historical journal. At every
+   Handoff: remove entries proven false or dismissed; remove entries whose
+   concern has been attended to (follow-up done, issue resolved), or rewrite
+   them down to whatever fact still holds; re-verify or drop anything that
+   can no longer be confirmed. History belongs in git and the phase
+   artifacts, not in memory.
+4. **Exclusion list** — never record what is derivable from the repo, the
    artifacts, or git history; those sources are authoritative and memory
    copies of them rot. If something derivable seems worth saving, capture
    only what was *surprising or non-obvious* about it.
-4. **Staleness protocol** — a memory naming a file/function/flag is a claim
+5. **Staleness protocol** — a memory naming a file/function/flag is a claim
    it existed *when the memory was written*; verify it still exists before
-   acting on it.
-5. **Record confirmations, not just corrections** — only saving mistakes
+   acting on it, and prune it once it no longer holds (per rule 3).
+6. **Record confirmations, not just corrections** — only saving mistakes
    drifts the workflow away from approaches the user has already validated.
-6. An empty memory is legitimate (nothing surprising happened). No machine
-   gate on content; `check-gate.sh` warns (not fails) if the file is missing.
+7. An empty memory is legitimate (nothing surprising happened, or everything
+   was attended to). No machine gate on content; `check-gate.sh` warns (not
+   fails) if the file is missing.
 
 ### Phase-prompt changes
 
-Every phase file (`00`–`06`) gains one `## Handoff` line: "Append any
-non-obvious learnings from this phase to `.workflow/memory.md` (see Memory
-Protocol in `_conventions.md`)." `00-bootstrap.md` additionally copies the new
+Every phase file (`00`–`06`) gains one `## Handoff` line: "Update
+`.workflow/memory.md` per the Memory Protocol in `_conventions.md`: append
+any non-obvious learnings from this phase, and prune entries now proven
+false, dismissed, or attended to." `00-bootstrap.md` additionally copies the new
 template (already covered by "copy every file from templates/workflow/").
 `_conventions.md`'s artifact table gains a `memory.md` row. `state.md`'s
 checkbox list is unchanged — memory is cross-phase, not a phase artifact.
