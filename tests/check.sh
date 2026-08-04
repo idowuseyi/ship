@@ -108,7 +108,7 @@ else
 fi
 
 for f in core/00-bootstrap.md core/01-discover.md core/02-plan.md core/03-design.md core/04-implement.md core/05-verify.md core/06-gtm.md; do
-  grep -qi 'memory.md' "$f" || note "$f missing memory.md update in Handoff"
+  grep -q 'Memory Protocol' "$f" || note "$f Handoff does not invoke the Memory Protocol"
 done
 grep -q '_security-review.md' core/05-verify.md || note "core/05-verify.md does not run the security pass"
 grep -q '_security-review.md' core/03-design.md || note "core/03-design.md missing design-time security step"

@@ -5,7 +5,7 @@ Turn a raw idea into an agreed problem statement, requirements, and a chosen
 direction.
 
 ## Inputs
-- `.workflow/state.md` (confirm `current_phase: 01-discover`).
+- `.workflow/memory.md` and `.workflow/state.md` (confirm `current_phase: 01-discover`).
 - Any existing project notes/README the user points to.
 
 ## Process
@@ -43,6 +43,6 @@ brief **plus the gate rubric**, and stop:
 ## Handoff
 On `approved`: in `state.md` set `last_gate_passed: discover`,
 `current_phase: 02-plan`, `next_gate: design`, check `01-brief.md`, add a Log
-line. Next phase is `02-plan`. Update `.workflow/memory.md` per the Memory
-Protocol in `_conventions.md`: append any non-obvious learnings from this
+line. Next phase is `02-plan`. Update `.workflow/memory.md` per the Memory Protocol
+in `_conventions.md`: append any non-obvious learnings from this
 phase; prune entries now proven false, dismissed, or attended to.

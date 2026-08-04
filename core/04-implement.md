@@ -6,7 +6,7 @@ Build the project per the approved design, logging decisions and changes.
 ## Inputs
 - `.workflow/03-design.md` (the contract to build to).
 - `.workflow/02-plan.md` (sequence).
-- `.workflow/state.md`.
+- `.workflow/memory.md` and `.workflow/state.md`.
 
 ## Process
 1. Implement in the sequence from the plan, following the design's interfaces.

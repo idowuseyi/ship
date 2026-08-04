@@ -6,7 +6,7 @@ Position the finished project and produce launch and sales assets.
 ## Inputs
 - `.workflow/01-brief.md` (problem, users, success criteria).
 - `.workflow/05-verify.md` (what's proven to work).
-- `.workflow/state.md`.
+- `.workflow/memory.md` and `.workflow/state.md`.
 
 ## Gate
 HARD GATE — this gate fires **before** starting. Per the Gate Protocol in

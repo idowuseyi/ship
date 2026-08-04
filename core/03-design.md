@@ -6,7 +6,7 @@ from.
 
 ## Inputs
 - `.workflow/01-brief.md` and `.workflow/02-plan.md`.
-- `.workflow/state.md`.
+- `.workflow/memory.md` and `.workflow/state.md`.
 
 ## Process
 1. Break the system into units, each with one clear responsibility and a defined
@@ -40,6 +40,6 @@ short summary of the design **plus the gate rubric**, and stop:
 ## Handoff
 On `approved`: in `state.md` set `last_gate_passed: design`,
 `current_phase: 04-implement`, `next_gate: gtm`, check `03-design.md`, add a Log
-line. Next phase is `04-implement`. Update `.workflow/memory.md` per the Memory
-Protocol in `_conventions.md`: append any non-obvious learnings from this
+line. Next phase is `04-implement`. Update `.workflow/memory.md` per the Memory Protocol
+in `_conventions.md`: append any non-obvious learnings from this
 phase; prune entries now proven false, dismissed, or attended to.

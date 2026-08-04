@@ -118,4 +118,33 @@ write_verify "$r" 'criterion A (previously blocked, failing before) — tests/a 
 "$r/.workflow/check-gate.sh" >/dev/null 2>&1 || note "passing criterion mentioning blocked/failing in prose should not block"
 rm -rf "$r"
 
+# 10. GTM pre-flight (no 06-gtm.md yet): hyphen-delimited open High security
+# finding in 05-verify.md must still block — proves check_security is wired
+# into the pre-flight else-branch, and exercises the hyphen-delimiter fix
+# (Fix 1) from that branch too.
+r=$(make_fixture 06-gtm)
+write_verify "$r" 'criterion A — tests/a — pass' \
+  'S-001 - auth bypass - High - src/x:1 - scenario - fix - open'
+"$r/.workflow/check-gate.sh" >/dev/null 2>&1 && note "GTM pre-flight with hyphen-delimited open High finding should block"
+rm -rf "$r"
+
+# 11. hyphen-delimited open High finding blocks at 05-verify (locks Fix 1:
+# the severity pre-filter must accept single "-" as a field delimiter, not
+# just em-dash / double-hyphen).
+r=$(make_fixture 05-verify)
+write_verify "$r" 'criterion A — tests/a — pass' \
+  'S-001 - auth bypass - High - src/x:1 - scenario - fix - open'
+"$r/.workflow/check-gate.sh" >/dev/null 2>&1 && note "hyphen-delimited open High finding should block"
+rm -rf "$r"
+
+# 12. blocked acceptance line whose reason itself contains nested parens
+# blocks (locks Fix 3: the blocked regex must not stop at the first ")").
+# A separate passing line is included so the only thing that can trigger a
+# block is correct detection of the (parenthesized) blocked line itself.
+r=$(make_fixture 05-verify)
+write_verify "$r" "$(printf 'criterion A — tests/a — pass\ncriterion B — tests/b — blocked(env down (staging))')" \
+  'S-001 — sample — Low — src/x:1 — n/a — n/a — fixed'
+"$r/.workflow/check-gate.sh" >/dev/null 2>&1 && note "blocked acceptance with nested parens in reason should block"
+rm -rf "$r"
+
 if [ "$fail" -eq 0 ]; then echo "GATE FIXTURE TESTS PASS"; else echo "GATE FIXTURE TESTS FAILED"; exit 1; fi

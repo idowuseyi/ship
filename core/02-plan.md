@@ -6,7 +6,7 @@ and tech.
 
 ## Inputs
 - `.workflow/01-brief.md` (requirements, chosen direction).
-- `.workflow/state.md`.
+- `.workflow/memory.md` and `.workflow/state.md`.
 
 ## Process
 1. Break the work into independently shippable pieces; note dependencies and order.
@@ -29,6 +29,6 @@ None. Flows directly to Design.
 
 ## Handoff
 In `state.md` set `current_phase: 03-design`, check `02-plan.md`, add a Log line.
-Next phase is `03-design`. Update `.workflow/memory.md` per the Memory
-Protocol in `_conventions.md`: append any non-obvious learnings from this
+Next phase is `03-design`. Update `.workflow/memory.md` per the Memory Protocol
+in `_conventions.md`: append any non-obvious learnings from this
 phase; prune entries now proven false, dismissed, or attended to.

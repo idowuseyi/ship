@@ -56,7 +56,7 @@ check_acceptance() {
   fails=$(printf '%s\n' "$body" | grep -Eci -- '(—|--|-)[[:space:]]*fail[[:space:]]*$' || true)
   [ "${passes:-0}" -ge 1 ] || err "05-verify.md ## Acceptance lists no passing criterion"
   [ "${fails:-0}" -ge 1 ] && err "05-verify.md ## Acceptance still has failing criteria ($fails)"
-  blocked=$(printf '%s\n' "$body" | grep -Eci -- '(—|--|-)[[:space:]]*blocked([[:space:]]*\([^)]*\))?[[:space:]]*$' || true)
+  blocked=$(printf '%s\n' "$body" | grep -Eci -- '(—|--|-)[[:space:]]*blocked([[:space:]]*\(.*\))?[[:space:]]*$' || true)
   [ "${blocked:-0}" -ge 1 ] && err "05-verify.md ## Acceptance has blocked criteria ($blocked) — resolve the blocker or re-scope with the user"
 }
 
@@ -67,7 +67,7 @@ check_security() {
   body=$(section_body "$WF/05-verify.md" "Security" | grep -v '<!--')
   content=$(printf '%s\n' "$body" | grep -v '^[[:space:]]*$')
   [ -n "$content" ] || { err "05-verify.md has an empty ## Security — run core/_security-review.md and record results"; return; }
-  open_high=$(printf '%s\n' "$body" | grep -Ei -- '(—|--)[[:space:]]*(critical|high)[[:space:]]*(—|--)' | grep -Eci -- '(—|--|-)[[:space:]]*open[[:space:]]*$' || true)
+  open_high=$(printf '%s\n' "$body" | grep -Ei -- '(—|--|-)[[:space:]]+(critical|high)[[:space:]]+(—|--|-)' | grep -Eci -- '(—|--|-)[[:space:]]*open[[:space:]]*$' || true)
   [ "${open_high:-0}" -ge 1 ] && err "05-verify.md ## Security has open Critical/High findings ($open_high) — fix them or record a user-approved deferred(reason + flip condition)"
 }
 
@@ -87,7 +87,7 @@ run_secret_scan() {
       --exclude-dir=dist --exclude-dir=build --exclude-dir=target \
       'sk_live_[0-9A-Za-z]{10,}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY|ghp_[A-Za-z0-9]{36}' \
       . 2>/dev/null | head -5)
-    [ -n "$hits" ] && { printf '%s\n' "$hits"; err "secret scan (grep fallback) found potential secrets above — remove/rotate them; install gitleaks for a fuller scan"; }
+    [ -n "$hits" ] && { printf '%s\n' "$hits" | cut -d: -f1,2; err "secret scan (grep fallback) found potential secrets at the locations above (values redacted) — remove/rotate them; install gitleaks for a fuller scan"; }
   fi
   cd "$WF" || true
 }

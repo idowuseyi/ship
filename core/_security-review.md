@@ -63,8 +63,11 @@ Verdict each check `PASS`/`WARN`/`BLOCK`, like the other critic checks in
 
 One finding per line, **status last**:
 
-`S-NNN — <title> — <Critical|High|Medium|Low> — <file:line> — <exploit
-scenario> — <fix> — <fixed|open|deferred(<reason + flip condition>)>`
+```
+S-NNN — <title> — <Critical|High|Medium|Low> — <file:line> — <exploit scenario> — <fix> — <fixed|open|deferred(<reason + flip condition>)>
+```
+
+Never wrap a finding line, even past 80 columns — the gate matches whole lines.
 
 Then:
 - **Reviewed and found solid:** the areas checked with no findings — an empty
